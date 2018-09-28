@@ -164,8 +164,8 @@ def test_create_attribute_and_attribute_values_errors(admin_api_client):
 def test_update_attribute(admin_api_client, color_attribute):
     attribute = color_attribute
     query = """
-    mutation updateAttribute($id: ID!, $name: String!, $slug: String!) {
-        attributeUpdate(id: $id, input: {name: $name, slug: $slug}) {
+    mutation updateAttribute($id: ID!, $name: String!) {
+        attributeUpdate(id: $id, input: {name: $name) {
             attribute {
                 name
             }
@@ -173,9 +173,8 @@ def test_update_attribute(admin_api_client, color_attribute):
     }
     """
     name = 'Wings name'
-    slug = attribute.slug
     id = graphene.Node.to_global_id('Attribute', attribute.id)
-    variables = json.dumps({'name': name, 'id': id, 'slug': slug})
+    variables = json.dumps({'name': name, 'id': id})
     response = admin_api_client.post(
         reverse('api'), {'query': query, 'variables': variables})
     content = get_graphql_content(response)
@@ -242,9 +241,9 @@ def test_update_attribute_value(admin_api_client, pink_attribute_value):
     value = pink_attribute_value
     query = """
     mutation updateChoice(
-            $id: ID!, $name: String!, $slug: String!, $value: String!) {
+            $id: ID!, $name: String!, $value: String!) {
         attributeValueUpdate(
-        id: $id, input: {name: $name, slug: $slug, value: $value}) {
+        id: $id, input: {name: $name, value: $value}) {
             attributeValue {
                 name
                 slug
@@ -256,7 +255,7 @@ def test_update_attribute_value(admin_api_client, pink_attribute_value):
     id = graphene.Node.to_global_id('AttributeValue', value.id)
     name = 'Crimson name'
     variables = json.dumps(
-        {'name': name, 'value': '#RED', 'slug': 'slug', 'id': id})
+        {'name': name, 'value': '#RED', 'id': id})
     response = admin_api_client.post(
         reverse('api'), {'query': query, 'variables': variables})
     content = get_graphql_content(response)

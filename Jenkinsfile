@@ -1,5 +1,5 @@
 node {
-    withCredentials([string(credentialsId: 'saleor_secret_text', variable: 'SECRET_KEY')])
+    withCredentials([string(credentialsId: 'saleor_secret_text', variable: 'SECRET_KEY')]){
     //if venv folder is not available, create
     if (!new File('bin').exist() || !new File('lib').exist())
         stage('Create virtual env') {
@@ -25,4 +25,5 @@ node {
     stage ('Deploy'){
         sh 'python manage.py runserver'
     }
+}
 }

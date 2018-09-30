@@ -1,7 +1,7 @@
 node {
     withCredentials([string(credentialsId: 'saleor_secret_text', variable: 'SECRET_KEY')]){
     //if venv folder is not available, create
-    if (!fileExist('bin') || !fileExist('lib'))
+    if (!fileExists('bin') || !fileExists('lib'))
         stage('Create virtual env') {
             sh 'python3 -m venv saleor-env'
         }

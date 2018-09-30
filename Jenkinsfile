@@ -11,7 +11,7 @@ node {
                 sh 'python3 -m venv saleor-env'
             }
         stage ('Switch to venv'){
-            sh 'source /saleor-env/bin/activate'
+            sh 'source saleor-env/bin/activate'
             sh 'cd ..'
         }
         stage('Install python packages') {

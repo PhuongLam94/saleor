@@ -3,8 +3,8 @@ node {
     withCredentials([string(credentialsId: 'saleor_secret_text', variable: 'SECRET_KEY')]){
         //if venv folder is not available, create
         stage('Check env var'){
-            echo '$PATH'
-            echo '$SECRET_KEY'
+            sh 'echo $PATH'
+            sh 'echo $SECRET_KEY'
         }
         if (!fileExists('bin') || !fileExists('lib'))
             stage('Create virtual env') {

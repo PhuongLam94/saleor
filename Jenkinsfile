@@ -13,6 +13,7 @@ node {
             }
         stage ('Switch to venv'){
             sh 'source saleor-env/bin/activate'
+            sh 'pwd'
         }
         stage('Install python packages') {
             sh 'pip install -r requirements.txt'

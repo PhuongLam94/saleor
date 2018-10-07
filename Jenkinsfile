@@ -19,7 +19,6 @@ node {
             sh 'pwd'
         }
         stage('Install python packages') {
-            dir '../..'
             sh 'pip install -r requirements.txt'
         }
         stage('DB stuffs') {

@@ -1,6 +1,9 @@
 node {
     
     withCredentials([string(credentialsId: 'saleor_secret_text', variable: 'SECRET_KEY')]){
+        stage('Checkout scm'){
+            checkout scm
+        }
         //if venv folder is not available, create
         stage('Check env var'){
             sh 'echo $PATH'

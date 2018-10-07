@@ -6,13 +6,13 @@ node {
             sh 'echo $PATH'
             sh 'echo $SECRET_KEY'
         }
-        if (!fileExists('bin') || !fileExists('lib'))
+        def firstTime = !fileExists('bin') || !fileExists('lib')
+        if (firstTime)
             stage('Create virtual env') {
                 sh 'python3 -m venv saleor-env'
             }
         stage ('Switch to venv'){
             sh 'source saleor-env/bin/activate'
-            sh 'cd ..'
         }
         stage('Install python packages') {
             sh 'pip install -r requirements.txt'

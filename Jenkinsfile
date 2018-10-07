@@ -15,7 +15,7 @@ node {
             sh 'cd ..'
         }
         stage('Install python packages') {
-            echo 'pip install -r requirements.txt'
+            sh 'pip install -r requirements.txt'
         }
         stage('DB stuffs') {
             sh 'createuser --superuser --pwprompt saleor'

@@ -2,11 +2,6 @@ node {
     
     withCredentials([string(credentialsId: 'saleor_secret_text', variable: 'SECRET_KEY')]){
         //if venv folder is not available, create
-        stage('Checkout scm'){
-            timeout(20){
-                checkout scm
-            }
-        }
         stage('Check env var'){
             sh 'echo $PATH'
             sh 'echo $SECRET_KEY'

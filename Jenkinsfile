@@ -2,7 +2,7 @@ node {
     
     withCredentials([string(credentialsId: 'saleor_secret_text', variable: 'SECRET_KEY')]){
         stage('Checkout scm'){
-            checkout([extensions:[[$class: 'CheckoutOption', timeout: 20]]])
+            checkout([[$class: 'GitSCM', extensions:[[$class: 'CheckoutOption', timeout: 20]]])
         }
         //if venv folder is not available, create
         stage('Check env var'){

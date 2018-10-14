@@ -4,35 +4,25 @@ node {
         stage('Checkout scm'){
             checkout scm
         }
-        //if venv folder is not available, create
-        stage('Check env var'){
-            sh 'echo $PATH'
-            sh 'echo $SECRET_KEY'
-        }
-        def firstTime = !fileExists('bin') || !fileExists('lib')
-        if (firstTime)
-            stage('Create virtual env') {
-                sh 'python3 -m venv saleor-env'
+        withPythonEnv('/usr/local/bin/python3'){
+            stage('Install python packages') {
+                sh 'pythong -version'
+                sh 'pip install -r requirements.txt'
             }
-        stage ('Switch to venv'){
-            sh 'source saleor-env/bin/activate'
-            sh 'python -V'
+            stage('DB stuffs') {
+                sh 'createuser --superuser --pwprompt saleor'
+                sh 'createdb saleor'
+                sh 'python manage.py migrate'
+            }
+            stage('FE stuffs'){
+                sh 'npm install'
+                sh 'npm run build-assets'
+                sh 'npm run build-emails'
+            }
+            stage ('Deploy'){
+                sh 'python manage.py runserver'
+            }
         }
-        stage('Install python packages') {
-            sh 'pip install -r requirements.txt'
-        }
-        stage('DB stuffs') {
-            sh 'createuser --superuser --pwprompt saleor'
-            sh 'createdb saleor'
-            sh 'python manage.py migrate'
-        }
-        stage('FE stuffs'){
-            sh 'npm install'
-            sh 'npm run build-assets'
-            sh 'npm run build-emails'
-        }
-        stage ('Deploy'){
-            sh 'python manage.py runserver'
-        }
+        
     }
 }

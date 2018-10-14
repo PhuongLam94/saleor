@@ -11,6 +11,8 @@ node {
             }
             stage('DB stuffs') {
                 sh 'psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname=\'saleor\'" | grep -q 1 || psql -c "create role saleor with login password \'saleor\';"'
+                sh 'psql -lqt'
+                sh 'psql -lqt | cut -d "|" -f 1'
                 sh 'psql -lqt | cut -d "|" -f 1 | grep -qw saleor | grep -q 1 || createdb saleor'
                 sh 'python manage.py migrate'
             }

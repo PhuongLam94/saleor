@@ -10,7 +10,7 @@ node {
                 sh 'pip install -r requirements.txt'
             }
             stage('DB stuffs') {
-                sh 'createuser --superuser --pwprompt saleor'
+                sh 'psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolename=\'saleor\'" | grep -q 1 || psql -c "create role saleor with login password \'saleor\';"'
                 sh 'createdb saleor'
                 sh 'python manage.py migrate'
             }

@@ -6,7 +6,7 @@ node {
         }
         withPythonEnv('/usr/local/bin/python3'){
             stage('Install python packages') {
-                sh 'python -version'
+                sh 'python --version'
                 sh 'pip install -r requirements.txt'
             }
             stage('DB stuffs') {
